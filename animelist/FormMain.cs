@@ -1,0 +1,59 @@
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Diagnostics.Eventing.Reader;
+using System.Drawing;
+using System.Linq;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using static System.Net.WebRequestMethods;
+
+
+namespace animelist
+{
+    public partial class FormMain : Form
+    {
+        public FormMain()
+        {
+            InitializeComponent();
+        }
+
+        private async void buttonSearch_Click(object sender, EventArgs e)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                try
+                {
+                    string keyword = textBoxSearch.Text.ToLower();
+                    string url = $"https://api.jikan.moe/v4/anime?q={keyword}";
+
+                    string json = await client.GetStringAsync(url);
+
+                    JikanRespon respon = JsonConvert.DeserializeObject<JikanRespon>(json);
+                    pictureBoxImg.Load(respon.data[0].images.jpg.image_url);
+                    pictureBoxImg.SizeMode = PictureBoxSizeMode.Zoom;
+                    dataGridViewaAnime.Rows.Clear();
+
+                    foreach (var anime in respon.data)
+                    {
+                        dataGridViewaAnime.Rows.Add(anime.title, anime.episodes, anime.year, anime.score, anime.rank);
+                    }
+                    
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("An error occurred: " + ex.Message);
+                }
+            }
+        }
+
+        private void dataGridViewaAnime_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+    }
+}
