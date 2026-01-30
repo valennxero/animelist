@@ -21,7 +21,7 @@ namespace animelist
         {
             InitializeComponent();
         }
-
+        JikanRespon respon;
         private async void buttonSearch_Click(object sender, EventArgs e)
         {
             using (HttpClient client = new HttpClient())
@@ -33,9 +33,9 @@ namespace animelist
 
                     string json = await client.GetStringAsync(url);
 
-                    JikanRespon respon = JsonConvert.DeserializeObject<JikanRespon>(json);
-                    pictureBoxImg.Load(respon.data[0].images.jpg.image_url);
-                    pictureBoxImg.SizeMode = PictureBoxSizeMode.Zoom;
+                    respon = JsonConvert.DeserializeObject<JikanRespon>(json);
+                    //pictureBoxImg.Load(respon.data[0].images.jpg.image_url);
+                    //pictureBoxImg.SizeMode = PictureBoxSizeMode.Zoom;
                     dataGridViewaAnime.Rows.Clear();
 
                     foreach (var anime in respon.data)
@@ -52,6 +52,14 @@ namespace animelist
         }
 
         private void dataGridViewaAnime_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int idx = dataGridViewaAnime.CurrentRow.Index;
+            FormDetail formDetail = new FormDetail(respon.data[idx]);
+            formDetail.Owner = this;
+            formDetail.ShowDialog();
+        }
+
+        private void FormMain_Load(object sender, EventArgs e)
         {
 
         }

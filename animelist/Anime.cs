@@ -15,7 +15,21 @@ namespace animelist
         public int? year { get; set; }
         public double? score { get; set; }
         public int? rank { get; set; }
-
+        public string season { get; set; }
+        public string synopsis { get; set; }
         public Images images { get; set; }
+
+        public class Studios
+        {
+            public string name { get; set; }
+        }
+
+        public List<Studios> studios { get; set; }
+
+        public class Genres
+        {
+            public string name { get; set; }
+        }
+        public List<Genres> genres { get; set; }
     }
 }
