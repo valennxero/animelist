@@ -40,7 +40,7 @@ namespace animelist
 
                     foreach (var anime in respon.data)
                     {
-                        dataGridViewaAnime.Rows.Add(anime.title, anime.episodes, anime.year, anime.score, anime.rank);
+                        dataGridViewaAnime.Rows.Add(anime.title, anime.episodes, anime.year, anime.score, anime.rank, anime.mal_id);
                     }
                     
                 }
@@ -62,6 +62,21 @@ namespace animelist
         private void FormMain_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private async void button1_Click(object sender, EventArgs e)
+        {
+            using (HttpClient _client = new HttpClient())
+            {
+                string url = "https://api.jikan.moe/v4/anime?mal_id=63816";
+                string json = await _client.GetStringAsync(url);
+
+                respon = JsonConvert.DeserializeObject<JikanRespon>(json);
+                Anime frieren = respon.data[0];
+                FormDetail formDetail = new FormDetail(frieren);
+                formDetail.Owner = this;
+                formDetail.ShowDialog();
+            }
         }
     }
 }

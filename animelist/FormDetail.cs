@@ -25,6 +25,7 @@ namespace animelist
             pictureBoxImg.SizeMode = PictureBoxSizeMode.Zoom;
             labelTitle.Text = animeDetail.title;
             labelScore.Text = animeDetail.score.ToString();
+            labelId.Text = animeDetail.mal_id.ToString();
 
             string rankText;
             if(animeDetail.score == 0)

@@ -11,6 +11,8 @@ namespace animelist
     public class Anime
     {
         public string title { get; set; }
+
+        public int mal_id { get; set; }
         public int? episodes { get; set; }
         public int? year { get; set; }
         public double? score { get; set; }
@@ -31,5 +33,13 @@ namespace animelist
             public string name { get; set; }
         }
         public List<Genres> genres { get; set; }
-    }
+
+        public DateTime addedAdd { get; set; }
+
+        public double myScore { get; set; }
+
+        public string status { get; set; } // "Watching", "Completed", "On Hold", "Dropped", "Plan to Watch"
+
+        public int epsWatched { get; set; }
+}
 }
